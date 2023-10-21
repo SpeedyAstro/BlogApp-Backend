@@ -1,4 +1,4 @@
-package in.astro.controller;
+package in.astro.payloads;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

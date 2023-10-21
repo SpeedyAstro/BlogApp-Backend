@@ -1,5 +1,6 @@
 package in.astro.controller;
 
+import in.astro.payloads.ApiResponse;
 import in.astro.payloads.UserDTO;
 import in.astro.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
