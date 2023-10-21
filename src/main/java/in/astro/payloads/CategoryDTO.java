@@ -14,9 +14,9 @@ import javax.validation.constraints.Size;
 public class CategoryDTO {
     private Integer category_id;
     @NotBlank
-    @Size(min = 2)
+    @Size(min = 2, message = "size of title should be more than 2")
     private String category_title;
     @NotBlank
-    @Size(max = 25)
+    @Size(min = 10,message = "size should be greater than 10")
     private String category_description;
 }
