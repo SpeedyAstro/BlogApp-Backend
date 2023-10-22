@@ -17,6 +17,8 @@ public class PostController {
     @Autowired
     private IPostService service;
 
+
+//    Create New Post
     @PostMapping("/user/{userid}/{categoryId}/posts")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO post,
                                               @PathVariable Integer userid,
@@ -26,6 +28,7 @@ public class PostController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+//    Get Posts by User
     @GetMapping("/user/{userId}/posts")
     public ResponseEntity<PageResponse> getPostByUser(
             @RequestParam(defaultValue = "0",required = false) int pageNo,
@@ -35,6 +38,7 @@ public class PostController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+//    Get Posts by Category
     @GetMapping("/category/{categoryId}/posts")
     public ResponseEntity<PageResponse> getPostByCategory(
             @RequestParam(defaultValue = "0",required = false) int pageNo,
@@ -44,15 +48,19 @@ public class PostController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+//    Get All Posts
     @GetMapping("/posts")
     public ResponseEntity<PageResponse> getAllPosts(
             @RequestParam(defaultValue = "0",required = false) int pageNo,
-            @RequestParam(defaultValue = "5",required = false) int pageSize
+            @RequestParam(defaultValue = "5",required = false) int pageSize,
+            @RequestParam(value = "sortBy",defaultValue = "post_id",required = false) String sortBy,
+            @RequestParam(value = "sort",defaultValue = "asc",required = false) String sort
     ){
-        PageResponse response = this.service.getAllPost(pageNo,pageSize);
+        PageResponse response = this.service.getAllPost(pageNo,pageSize,sortBy,sort);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+//    Get a specific post
     @GetMapping("/post/{id}")
     public ResponseEntity<PostDTO> getPostById(@PathVariable Integer id){
         PostDTO postDTO = this.service.getPostById(id);
