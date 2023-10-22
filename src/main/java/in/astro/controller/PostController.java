@@ -1,6 +1,7 @@
 package in.astro.controller;
 
 import in.astro.payloads.ApiResponse;
+import in.astro.payloads.PageResponse;
 import in.astro.payloads.PostDTO;
 import in.astro.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +27,30 @@ public class PostController {
     }
 
     @GetMapping("/user/{userId}/posts")
-    public ResponseEntity<List<PostDTO>> getPostByUser(@PathVariable Integer userId){
-        List<PostDTO> postByUser = this.service.getPostByUser(userId);
-        return new ResponseEntity<>(postByUser,HttpStatus.OK);
+    public ResponseEntity<PageResponse> getPostByUser(
+            @RequestParam(defaultValue = "0",required = false) int pageNo,
+            @RequestParam(defaultValue = "5",required = false) int pageSize,
+            @PathVariable Integer userId){
+        PageResponse response = this.service.getPostByUser(pageNo,pageSize,userId);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @GetMapping("/category/{categoryId}/posts")
-    public ResponseEntity<List<PostDTO>> getPostByCategory(@PathVariable Integer categoryId){
-        List<PostDTO> postByUser = this.service.getPostByCategory(categoryId);
-        return new ResponseEntity<>(postByUser,HttpStatus.OK);
+    public ResponseEntity<PageResponse> getPostByCategory(
+            @RequestParam(defaultValue = "0",required = false) int pageNo,
+            @RequestParam(defaultValue = "5",required = false) int pageSize,
+            @PathVariable Integer categoryId){
+        PageResponse response = this.service.getPostByCategory(pageNo,pageSize,categoryId);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDTO>> getAllPosts(){
-        List<PostDTO> posts = this.service.getAllPost();
-        return new ResponseEntity<>(posts,HttpStatus.OK);
+    public ResponseEntity<PageResponse> getAllPosts(
+            @RequestParam(defaultValue = "0",required = false) int pageNo,
+            @RequestParam(defaultValue = "5",required = false) int pageSize
+    ){
+        PageResponse response = this.service.getAllPost(pageNo,pageSize);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @GetMapping("/post/{id}")
