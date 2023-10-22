@@ -15,5 +15,5 @@ public interface IPostService {
 //    get all post by category
     PageResponse getPostByCategory(int pageNo,int pageSize,Integer category_id);
     PageResponse getPostByUser(int pageNo,int pageSize,Integer userId);
-    List<Post> searchPosts(String keyword);
+    List<PostDTO> searchPosts(String keyword);
 }

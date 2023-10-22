@@ -1,9 +1,10 @@
-package in.astro.service;
+package in.astro.service.Impl;
 
 import in.astro.entity.User;
 import in.astro.exceptions.ResourceNotFoundException;
 import in.astro.payloads.UserDTO;
 import in.astro.repository.UserRepository;
+import in.astro.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired

@@ -1,4 +1,4 @@
-package in.astro.service;
+package in.astro.service.Impl;
 
 import in.astro.entity.Category;
 import in.astro.entity.Post;
@@ -9,6 +9,7 @@ import in.astro.payloads.PostDTO;
 import in.astro.repository.CategoryRepository;
 import in.astro.repository.PostRepository;
 import in.astro.repository.UserRepository;
+import in.astro.service.IPostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PostServiceImpl implements IPostService{
+public class PostServiceImpl implements IPostService {
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -120,8 +121,10 @@ public class PostServiceImpl implements IPostService{
     }
 
     @Override
-    public List<Post> searchPosts(String keyword) {
-        return null;
+    public List<PostDTO> searchPosts(String keyword) {
+        List<Post> posts = this.postRepository.findByTitleContaining(keyword);
+        List<PostDTO> postDTOList = posts.stream().map(post -> this.mapper.map(post, PostDTO.class)).collect(Collectors.toList());
+        return postDTOList;
     }
 
     public PageResponse getPageResponse(Page<Post> postPage){

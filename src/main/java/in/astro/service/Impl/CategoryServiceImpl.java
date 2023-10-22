@@ -1,9 +1,10 @@
-package in.astro.service;
+package in.astro.service.Impl;
 
 import in.astro.entity.Category;
 import in.astro.exceptions.ResourceNotFoundException;
 import in.astro.payloads.CategoryDTO;
 import in.astro.repository.CategoryRepository;
+import in.astro.service.ICategoryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CategoryServiceImpl implements ICategoryService{
+public class CategoryServiceImpl implements ICategoryService {
     @Autowired
     private CategoryRepository repository;
     @Override
