@@ -8,6 +8,9 @@ import in.astro.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +19,14 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired
+    private PasswordEncoder encoder;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
     @Override
     public UserDTO createUser(UserDTO dto) {
+        dto.setPassword(encoder.encode(dto.getPassword())); // encode password
         User user = userRepository.save(dtoToEntity(dto));
         return entityToDto(user);
     }
@@ -59,7 +65,6 @@ public class UserServiceImpl implements IUserService {
 
     // model mapper
     public User dtoToEntity(UserDTO dto){
-//        User user = this.modelMapper.map(dto,User.class);
         User user = new User();
         BeanUtils.copyProperties(dto,user);
 //        user.setId(dto.getId());
@@ -78,5 +83,16 @@ public class UserServiceImpl implements IUserService {
 //        dto.setEmail(user.getEmail());
 //        dto.setPassword(user.getPassword());
         return dto;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = this.userRepository.findByEmail(username).
+                orElseThrow(() -> new ResourceNotFoundException("User", "Email"));
+//        org.springframework.security.core.userdetails.User user1 =new org.springframework.security.core.userdetails.User(
+//                user.getUsername(),user.getPassword(),user.getAuthorities().stream().map(role->new SimpleGrantedAuthority(role.getAuthority()))
+//                .collect(Collectors.toSet())
+//        );
+        return user;
     }
 }
