@@ -32,7 +32,8 @@ public class SecurityConfig   {
 //                .antMatchers("/**").permitAll().and().formLogin().loginPage("/signin")
 //                .loginProcessingUrl("/dologin")
 //                .defaultSuccessUrl("/user/index")
-                .anyRequest().authenticated().and().httpBasic()
+                .anyRequest().permitAll()
+//                .anyRequest().authenticated().and().httpBasic()
                 .and().csrf().disable();
 //        http.formLogin().defaultSuccessUrl("/user/index",true);
         return http.build();
